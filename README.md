@@ -87,7 +87,7 @@ prohibited from entering a value higher.
 }
 ```
 
-###### steps.{years, months, days, hours, minutes, seconds}
+###### steps.{ years, months, days, hours, minutes, seconds }
 
 These specify the allowed interval (modulo), but only work when useing up and down keys.
 
