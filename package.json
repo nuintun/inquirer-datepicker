@@ -1,0 +1,28 @@
+{
+  "name": "inquirer-datepicker",
+  "version": "0.0.1",
+  "description": "Datepicker prompt for inquirer.js",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nuintun/inquirer-datepicker.git"
+  },
+  "keywords": [
+    "inquirer",
+    "datepicker",
+    "prompt"
+  ],
+  "author": "nuintun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nuintun/inquirer-datepicker/issues"
+  },
+  "homepage": "https://github.com/nuintun/inquirer-datepicker#readme",
+  "dependencies": {
+    "chalk": "^2.1.0",
+    "cli-cursor": "^2.1.0",
+    "inquirer": "^3.3.0",
+    "lodash": "^4.17.4",
+    "moment": "^2.18.1"
+  }
+}
