@@ -49,7 +49,7 @@ For example:
 
 ###### default
 
-Initial value for datepicker. If not specified current date and time will be used.
+Initial value for datepicker.
 
 Example:
 ```javascript
@@ -63,8 +63,7 @@ Example:
 
 ###### min, max
 
-These specify a range of valid dates/time for entry.  Users will be
-prohibited from entering a value higher.
+These specify a range for entry.  Users will be prohibited from entering a value higher or lower.
 
 ```Javascript
 {
