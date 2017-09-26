@@ -276,9 +276,9 @@ class Datepicker extends Base {
 
     format.forEach(function(key, index) {
       if (selection.cursor === index) {
-        message += chalk.reset.inverse(selection.date.format(key));
+        message += chalk.reset.yellow.inverse(' ' + selection.date.format(key) + ' ');
       } else {
-        message += selection.date.format(key);
+        message += chalk.reset.yellow(selection.date.format(key));
       }
     });
 
