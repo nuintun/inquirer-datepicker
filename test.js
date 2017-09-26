@@ -10,10 +10,10 @@ var questions = [
     type: 'datepicker',
     message: 'Select date time: ',
     min: {
-      year: 2016
+      hour: 6
     },
     max: {
-      year: 2018
+      hour: 12
     }
   }
 ];

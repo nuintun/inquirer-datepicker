@@ -233,6 +233,9 @@ class Datepicker extends Base {
     options.steps = steps;
     options.format = format;
     context.selection = selection;
+
+    // Hide cursor
+    cursor.hide();
   }
 
   /**
@@ -248,12 +251,13 @@ class Datepicker extends Base {
 
     // Once user confirm (enter key)
     let events = observe(context.rl);
+    let line = events.line;
+    let keypress = events.keypress;
+    let onEnd = context.onEnd.bind(context);
+    let onKeypress = context.onKeypress.bind(context);
 
-    events.keypress.takeUntil(events.line).forEach(context.onKeypress.bind(context));
-    events.line.take(1).forEach(context.onEnd.bind(context));
-
-    // Init
-    cursor.hide();
+    line.take(1).forEach(onEnd);
+    keypress.takeUntil(line).forEach(onKeypress);
     context.render();
 
     return context;
@@ -312,10 +316,10 @@ class Datepicker extends Base {
     }
 
     // Numerical Entry
-    var input;
+    var input = parseInt(e.value, 10)
 
-    if (Number.isInteger(input = parseInt(e.value, 10))) {
-      selection.value = (selection.value * 10) + input;
+    if (Number.isSafeInteger(input)) {
+      selection.value = selection.value * 10 + input;
       elements[cursor].set(selection.value);
     } else {
       selection.value = 0;
@@ -342,8 +346,10 @@ class Datepicker extends Base {
 
     screen.render(message);
     screen.done();
-    cursor.show();
     context.done(selection.date.toDate());
+
+    // Show cursor
+    cursor.show();
   }
 }
 
