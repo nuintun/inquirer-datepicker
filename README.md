@@ -57,7 +57,7 @@ Example:
   type: 'datepicker',
   name: 'date',
   message: 'Select a date time: ',
-  default: new Date('2017-01-01 12:30'),
+  default: new Date('2017-09-26 22:56:36'),
 }
 ```
 
