@@ -2,8 +2,8 @@
 
 >
 >Datepicker plugin for [Inquirer.js](https://github.com/SBoudrias/Inquirer.js)
-
-![Datetime prompt](datepicker.png)
+>
+>![Datetime prompt](datepicker.png)
 
 ### Getting started
 ###### install plugin
