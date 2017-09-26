@@ -6,14 +6,19 @@ inquirer.registerPrompt('datepicker', Datepicker);
 
 var questions = [
   {
-    name: 'date',
+    name: 'start',
     type: 'datepicker',
-    message: 'Select a date time: '
+    message: 'Select start date time: '
+  },
+  {
+    name: 'end',
+    type: 'datepicker',
+    message: 'Select end date time: '
   }
 ];
 
 inquirer
   .prompt(questions)
   .then(function(input) {
-    console.log(input.date);
+    console.log(JSON.stringify(input, null, 2));
   });
