@@ -21,17 +21,28 @@ const findIndex = lodash.findIndex;
 const findLastIndex = lodash.findLastIndex;
 const PROPS = ['year', 'month', 'day', 'hour', 'minute', 'second'];
 
-function foramtRange(date, range) {
+function normalizeRange(range, key) {
+  if (range && range.hasOwnProperty(key)) {
+    if (value === 'month') {
+      range[key] = range[key] >>> 0 + 1;
+    } else {
+      range[key] = range[key] >>> 0;
+    }
+  }
+}
+
+function normalizeStep(steps, key) {
+  key += 's';
+  steps[key] = Math.max(steps[key] >>> 0, 1);
+}
+
+function resolveRange(date, range) {
   if (!range) return null;
 
   let meta = {};
   let count = 0;
 
   PROPS.forEach(function(key) {
-    if (key === 'day') {
-      key = 'date';
-    }
-
     if (range.hasOwnProperty(key)) {
       count++;
       meta[key] = range[key];
@@ -44,8 +55,8 @@ function foramtRange(date, range) {
 }
 
 function isValidDate(date, min, max) {
-  min = foramtRange(date, min);
-  max = foramtRange(date, max);
+  min = resolveRange(date, min);
+  max = resolveRange(date, max);
 
   if ((min && date.isBefore(min)) || (max && date.isAfter(max))) {
     return false;
@@ -70,16 +81,9 @@ class Datepicker extends Base {
     let steps = options.steps || {};
 
     PROPS.forEach(function(key) {
-      if (min && min[key]) {
-        min[key] = min[key] >>> 0;
-      }
-
-      if (max && max[key]) {
-        max[key] = max[key] >>> 0;
-      }
-
-      key += 's';
-      steps[key] = Math.max(steps[key] >>> 0, 1);
+      normalizeRange(min, key);
+      normalizeRange(max, key);
+      normalizeStep(steps, key);
     });
 
     if (!Array.isArray(format)) {
@@ -228,8 +232,8 @@ class Datepicker extends Base {
       }
     });
 
-    options.min = min;
-    options.max = max;
+    options.min = min || null;
+    options.max = max || null;
     options.steps = steps;
     options.format = format;
     context.selection = selection;
@@ -306,12 +310,12 @@ class Datepicker extends Base {
       index = findLastIndex(elements, isSelectable, cursor > 0 ? cursor - 1 : cursor);
       selection.cursor = index >= 0 ? index : cursor;
     } else if (e.key.name === 'up') {
-      if (!elements[cursor].add(1)) {
-        selection.date = foramtRange(selection.date, options.max);
+      if (!elements[cursor].add(1) && options.max) {
+        selection.date = resolveRange(selection.date, options.max);
       }
     } else if (e.key.name === 'down') {
-      if (!elements[cursor].add(-1)) {
-        selection.date = foramtRange(selection.date, options.min);
+      if (!elements[cursor].add(-1) && options.min) {
+        selection.date = resolveRange(selection.date, options.min);
       }
     }
 
