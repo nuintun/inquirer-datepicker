@@ -3,11 +3,11 @@
 >
 >Datepicker plugin for [Inquirer.js](https://github.com/SBoudrias/Inquirer.js)
 >
+>![Datetime prompt](datepicker.png)
+>
 >[![NPM Version][npm-image]][npm-url]
 >[![Download Status][download-image]][npm-url]
 >[![Dependencies][david-image]][david-url]
->
->![Datetime prompt](datepicker.png)
 
 ### Getting started
 ###### install plugin
