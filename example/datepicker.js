@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const Datepicker = require('./index');
+const Datepicker = require('../index');
 
 // In your code, this will be:
 inquirer.registerPrompt('datepicker', Datepicker);
