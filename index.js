@@ -11,9 +11,9 @@
 
 const chalk = require('chalk');
 const moment = require('moment');
+const lodash = require('lodash');
 const cursor = require('cli-cursor');
 const inquirer = require('inquirer');
-const lodash = require('lodash');
 const Base = require('inquirer/lib/prompts/base');
 const observe = require('inquirer/lib/utils/events');
 
@@ -274,18 +274,29 @@ class Datepicker extends Base {
    */
   render() {
     let context = this;
+    let unselected = '';
     let message = context.getQuestion();
     let selection = context.selection;
     let format = context.opt.format;
 
+    function outputUnselected() {
+      if (unselected) {
+        message += chalk.reset.yellow(selection.date.format(unselected));
+        unselected = '';
+      }
+    }
+
     format.forEach(function(key, index) {
       if (selection.cursor === index) {
+        outputUnselected();
+
         message += chalk.reset.yellow.inverse(' ' + selection.date.format(key) + ' ');
       } else {
-        message += chalk.reset.yellow(selection.date.format(key));
+        unselected += key;
       }
     });
 
+    outputUnselected();
     context.screen.render(message);
 
     return context;
@@ -344,9 +355,7 @@ class Datepicker extends Base {
 
     context.status = 'answered';
 
-    format.forEach(function(key) {
-      message += chalk.reset.cyan(selection.date.format(key));
-    });
+    message += chalk.reset.cyan(selection.date.format(format.join('')));
 
     screen.render(message);
     screen.done();
