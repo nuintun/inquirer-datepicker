@@ -11,9 +11,7 @@
 
 ### Getting started
 ###### install plugin
-```javascript
-npm i inquirer-datepicker
-```
+[![NPM](https://nodei.co/npm/inquirer-datepicker.png)](https://nodei.co/npm/inquirer-datepicker/)
 
 ###### register prompt
 ```javascript
