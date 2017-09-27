@@ -236,6 +236,7 @@ class Datepicker extends Base {
     options.max = max || null;
     options.steps = steps;
     options.format = format;
+    options.default = null; // Reset default
     context.selection = selection;
 
     // Hide cursor
