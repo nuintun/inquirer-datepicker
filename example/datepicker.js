@@ -8,12 +8,12 @@ var questions = [
   {
     name: 'start',
     type: 'datepicker',
-    message: 'Select start date time: '
+    message: 'Select start date time:'
   },
   {
     name: 'end',
     type: 'datepicker',
-    message: 'Select end date time: '
+    message: 'Select end date time:'
   }
 ];
 

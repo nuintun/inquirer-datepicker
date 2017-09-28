@@ -59,7 +59,7 @@ Example:
   type: 'datepicker',
   name: 'date',
   message: 'Select a date time: ',
-  default: new Date('2017-09-26 22:56:36'),
+  default: new Date('2017-09-28 17:36:05'),
 }
 ```
 
