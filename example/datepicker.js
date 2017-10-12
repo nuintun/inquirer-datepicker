@@ -4,7 +4,7 @@ const Datepicker = require('../index');
 // In your code, this will be:
 inquirer.registerPrompt('datepicker', Datepicker);
 
-var questions = [
+const questions = [
   {
     name: 'start',
     type: 'datepicker',

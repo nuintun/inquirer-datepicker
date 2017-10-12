@@ -1,6 +1,6 @@
 {
   "name": "inquirer-datepicker",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Datepicker prompt for inquirer.js",
   "main": "index.js",
   "repository": {
@@ -23,6 +23,6 @@
     "cli-cursor": "^2.1.0",
     "inquirer": "^3.3.0",
     "lodash": "^4.17.4",
-    "moment": "^2.18.1"
+    "moment": "^2.19.1"
   }
 }

@@ -75,8 +75,8 @@ class Datepicker extends Base {
 
     let context = this;
     let options = context.opt;
-    let min = options.min;
-    let max = options.max;
+    let min = options.min || null;
+    let max = options.max || null;
     let format = options.format;
     let steps = options.steps || {};
 
@@ -90,7 +90,16 @@ class Datepicker extends Base {
       format = ['Y', '/', 'MM', '/', 'DD', ' ', 'HH', ':', 'mm', ':', 'ss'];
     }
 
-    let initial = moment.min(moment(min), moment(max), moment(options.default));
+    let initial = moment(options.default);
+
+    if (min) {
+      initial = moment.max(moment(min), initial);
+    }
+
+    if (max) {
+      initial = moment.min(moment(max), initial);
+    }
+
     let selection = { value: 0, cursor: 0, date: initial, elements: [] };
 
     function saveSelectionDate(date) {
