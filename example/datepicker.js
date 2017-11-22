@@ -1,3 +1,11 @@
+/**
+ * @module datepicker
+ * @license MIT
+ * @version 2017/11/22
+ */
+
+'use strict';
+
 const inquirer = require('inquirer');
 const Datepicker = require('../index');
 
@@ -19,6 +27,9 @@ const questions = [
 
 inquirer
   .prompt(questions)
-  .then(function(input) {
+  .then(input => {
     console.log(JSON.stringify(input, null, 2));
+  })
+  .catch(error => {
+    console.error(error);
   });

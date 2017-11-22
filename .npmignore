@@ -18,8 +18,5 @@ appveyor.yml
 # test
 test
 
-# vscode beautify extension configure
-.jsbeautifyrc
-
 # npm lock file
 package-lock.json

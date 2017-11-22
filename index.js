@@ -1,10 +1,7 @@
-/*!
- * Datepicker
- *
- * Author: nuintun
- * Date: 2017/09/26
- *
- * This is licensed under the MIT License (MIT).
+/**
+ * @module index
+ * @license MIT
+ * @version 2017/11/22
  */
 
 'use strict';
@@ -21,28 +18,46 @@ const findIndex = lodash.findIndex;
 const findLastIndex = lodash.findLastIndex;
 const PROPS = ['year', 'month', 'day', 'hour', 'minute', 'second'];
 
+/**
+ * @function normalizeRange
+ * @param {Array} range
+ * @param {string} key
+ */
 function normalizeRange(range, key) {
   if (range && range.hasOwnProperty(key)) {
-    if (value === 'month') {
-      range[key] = range[key] >>> 0 + 1;
+    let value = range[key] >>> 0;
+
+    if (key === 'month') {
+      range[key] = Math.max(0, value - 1);
     } else {
-      range[key] = range[key] >>> 0;
+      range[key] = value;
     }
   }
 }
 
+/**
+ * @function normalizeStep
+ * @param {number} steps
+ * @param {string} key
+ */
 function normalizeStep(steps, key) {
   key += 's';
   steps[key] = Math.max(steps[key] >>> 0, 1);
 }
 
+/**
+ * @function resolveRange
+ * @param {Moment} date
+ * @param {Array} range
+ * @returns {Moment|null}
+ */
 function resolveRange(date, range) {
   if (!range) return null;
 
-  let meta = {};
   let count = 0;
+  const meta = {};
 
-  PROPS.forEach(function(key) {
+  PROPS.forEach(key => {
     if (range.hasOwnProperty(key)) {
       count++;
       meta[key] = range[key];
@@ -54,6 +69,13 @@ function resolveRange(date, range) {
   return count ? moment(meta) : null;
 }
 
+/**
+ * @function isValidDate
+ * @param {Moment} date
+ * @param {Array} min
+ * @param {Array} max
+ * @returns {boolean}
+ */
 function isValidDate(date, min, max) {
   min = resolveRange(date, min);
   max = resolveRange(date, max);
@@ -65,22 +87,36 @@ function isValidDate(date, min, max) {
   return true;
 }
 
+/**
+ * @function isSelectable
+ * @param {any} value
+ * @returns {boolean}
+ */
 function isSelectable(value) {
   return value !== null;
 }
 
+/**
+ * @class Datepicker
+ * @extends Base
+ */
 class Datepicker extends Base {
+  /**
+   * @constructor
+   * @param {question} question
+   * @param {rl} rl
+   * @param {answers} answers
+   */
   constructor(question, rl, answers) {
     super(question, rl, answers);
 
-    let context = this;
-    let options = context.opt;
-    let min = options.min || null;
-    let max = options.max || null;
+    const options = this.opt;
+    const min = options.min || null;
+    const max = options.max || null;
+    const steps = options.steps || {};
     let format = options.format;
-    let steps = options.steps || {};
 
-    PROPS.forEach(function(key) {
+    PROPS.forEach(key => {
       normalizeRange(min, key);
       normalizeRange(max, key);
       normalizeStep(steps, key);
@@ -100,7 +136,7 @@ class Datepicker extends Base {
       initial = moment.min(moment(max), initial);
     }
 
-    let selection = { value: 0, cursor: 0, date: initial, elements: [] };
+    const selection = { value: 0, cursor: 0, date: initial, elements: [] };
 
     function saveSelectionDate(date) {
       if (isValidDate(date, min, max)) {
@@ -112,8 +148,8 @@ class Datepicker extends Base {
       return false;
     }
 
-    format.forEach(function(key) {
-      let elements = selection.elements;
+    format.forEach(key => {
+      const elements = selection.elements;
 
       switch (key) {
         case 'Y':
@@ -229,11 +265,13 @@ class Datepicker extends Base {
         case 'a':
           elements.push({
             add() {
-              let hour = selection.date.get('hour');
+              const hour = selection.date.get('hour');
 
               return saveSelectionDate(selection.date.clone().add(hour >= 12 ? -12 : 12, 'hours'));
             },
-            set() { return true; }
+            set() {
+              return true;
+            }
           });
           break;
         default:
@@ -246,48 +284,46 @@ class Datepicker extends Base {
     options.steps = steps;
     options.format = format;
     options.default = null; // Reset default
-    context.selection = selection;
+
+    this.selection = selection;
 
     // Hide cursor
     cursor.hide();
   }
 
   /**
-   * Start the Inquiry session
-   *
-   * @param  {Function} done   Callback when prompt is done
+   * @method _run
+   * @description Start the Inquiry session
+   * @param {Function} done   Callback when prompt is done
    * @return {Datepicker}
    */
   _run(done) {
-    let context = this;
-
-    context.done = done;
+    this.done = done;
 
     // Once user confirm (enter key)
-    let events = observe(context.rl);
-    let line = events.line;
-    let keypress = events.keypress;
-    let onEnd = context.onEnd.bind(context);
-    let onKeypress = context.onKeypress.bind(context);
+    const events = observe(this.rl);
+    const line = events.line;
+    const keypress = events.keypress;
+    const onEnd = this.onEnd.bind(this);
+    const onKeypress = this.onKeypress.bind(this);
 
     line.take(1).forEach(onEnd);
     keypress.takeUntil(line).forEach(onKeypress);
-    context.render();
+    this.render();
 
-    return context;
+    return this;
   }
 
   /**
-   * Render the prompt to screen
-   *
+   * @method render
+   * @description Render the prompt to screen
    * @return {Datepicker}
    */
   render() {
-    let context = this;
     let unselected = '';
-    let message = context.getQuestion();
-    let selection = context.selection;
-    let format = context.opt.format;
+    let message = this.getQuestion();
+    const selection = this.selection;
+    const format = this.opt.format;
 
     function outputUnselected() {
       if (unselected) {
@@ -296,7 +332,7 @@ class Datepicker extends Base {
       }
     }
 
-    format.forEach(function(key, index) {
+    format.forEach((key, index) => {
       if (selection.cursor === index) {
         outputUnselected();
 
@@ -307,21 +343,22 @@ class Datepicker extends Base {
     });
 
     outputUnselected();
-    context.screen.render(message);
+    this.screen.render(message);
 
-    return context;
+    return this;
   }
 
   /**
-   * When user press a key
+   * @method onKeypress
+   * @param {Events} e
+   * @description When user press a key
    */
   onKeypress(e) {
     let index;
-    let context = this;
-    let selection = context.selection;
-    let cursor = selection.cursor;
-    let elements = selection.elements;
-    let options = context.opt;
+    const selection = this.selection;
+    const cursor = selection.cursor;
+    const elements = selection.elements;
+    const options = this.opt;
 
     // Arrow Keys
     if (e.key.name === 'right') {
@@ -341,7 +378,7 @@ class Datepicker extends Base {
     }
 
     // Numerical Entry
-    var input = parseInt(e.value, 10)
+    const input = parseInt(e.value, 10);
 
     if (Number.isSafeInteger(input)) {
       selection.value = selection.value * 10 + input;
@@ -350,30 +387,31 @@ class Datepicker extends Base {
       selection.value = 0;
     }
 
-    context.render();
+    this.render();
   }
 
   /**
-   * When user press `enter` key
+   * @method onEnd
+   * @description When user press `enter` key
    */
   onEnd() {
-    let context = this;
-    let screen = context.screen;
-    let message = context.getQuestion();
-    let selection = context.selection;
-    let format = context.opt.format;
+    const screen = this.screen;
+    const selection = this.selection;
+    const format = this.opt.format;
+    let message = this.getQuestion();
 
-    context.status = 'answered';
+    this.status = 'answered';
 
     message += chalk.reset.cyan(selection.date.format(format.join('')));
 
     screen.render(message);
     screen.done();
-    context.done(selection.date.toDate());
+    this.done(selection.date.toDate());
 
     // Show cursor
     cursor.show();
   }
 }
 
+// Exports
 module.exports = Datepicker;
