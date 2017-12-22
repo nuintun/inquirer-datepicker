@@ -1,6 +1,6 @@
 {
   "name": "inquirer-datepicker",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Datepicker prompt for inquirer.js",
   "main": "index.js",
   "repository": {

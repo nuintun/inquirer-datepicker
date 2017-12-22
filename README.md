@@ -1,24 +1,27 @@
 # inquirer-datepicker
 
+> Datepicker plugin for [Inquirer.js](https://github.com/SBoudrias/Inquirer.js)
 >
->Datepicker plugin for [Inquirer.js](https://github.com/SBoudrias/Inquirer.js)
+> ![Datetime prompt](datepicker.png)
 >
->![Datetime prompt](datepicker.png)
->
->[![NPM Version][npm-image]][npm-url]
->[![Download Status][download-image]][npm-url]
->[![Dependencies][david-image]][david-url]
+> [![NPM Version][npm-image]][npm-url]
+> [![Download Status][download-image]][npm-url]
+> [![Dependencies][david-image]][david-url]
 
 ### Getting started
+
 ###### install plugin
+
 [![NPM](https://nodei.co/npm/inquirer-datepicker.png)](https://nodei.co/npm/inquirer-datepicker/)
 
 ###### register prompt
+
 ```javascript
-inquirer.registerPrompt('datepicker', require('inquirer-datepicker'))
+inquirer.registerPrompt('datepicker', require('inquirer-datepicker'));
 ```
 
 ### Options
+
 ###### message
 
 Inherited from inquirer, message to be displayed while retrieving response.
@@ -54,6 +57,7 @@ For example:
 Initial value for datepicker.
 
 Example:
+
 ```javascript
 {
   type: 'datepicker',
@@ -65,7 +69,7 @@ Example:
 
 ###### min, max
 
-These specify a range for entry.  Users will be prohibited from entering a value higher or lower.
+These specify a range for entry. Users will be prohibited from entering a value higher or lower.
 
 ```Javascript
 {
@@ -95,7 +99,6 @@ These specify the allowed interval (modulo), but only work when useing up and do
 For instance:
 
 ```Javascript
-
 // Minutes can only be entered in intervals of 15 minutes
 {
   type: 'datepicker',
@@ -108,8 +111,8 @@ For instance:
 ```
 
 ### Thanks
-See: [inquirer-datepicker-prompt](https://github.com/DerekTBrown/inquirer-datepicker-prompt)
 
+See: [inquirer-datepicker-prompt](https://github.com/DerekTBrown/inquirer-datepicker-prompt)
 
 [npm-image]: https://img.shields.io/npm/v/inquirer-datepicker.svg?style=flat-square
 [npm-url]: https://www.npmjs.org/package/inquirer-datepicker
