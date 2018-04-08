@@ -1,6 +1,6 @@
 {
   "name": "inquirer-datepicker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Datepicker prompt for inquirer.js",
   "main": "index.js",
   "repository": {
@@ -18,10 +18,10 @@
   },
   "homepage": "https://github.com/nuintun/inquirer-datepicker#readme",
   "dependencies": {
-    "chalk": "^2.3.1",
+    "chalk": "^2.3.2",
     "cli-cursor": "^2.1.0",
-    "inquirer": "^5.1.0",
+    "inquirer": "^5.2.0",
     "lodash": "^4.17.5",
-    "moment": "^2.20.1"
+    "moment": "^2.22.0"
   }
 }
