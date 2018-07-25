@@ -10,7 +10,6 @@ const chalk = require('chalk');
 const moment = require('moment');
 const lodash = require('lodash');
 const cursor = require('cli-cursor');
-const inquirer = require('inquirer');
 const Base = require('inquirer/lib/prompts/base');
 const observe = require('inquirer/lib/utils/events');
 
