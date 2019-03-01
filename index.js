@@ -8,13 +8,12 @@
 
 const chalk = require('chalk');
 const moment = require('moment');
-const lodash = require('lodash');
 const cursor = require('cli-cursor');
 const Base = require('inquirer/lib/prompts/base');
 const observe = require('inquirer/lib/utils/events');
+const { take, takeUntil } = require('rxjs/operators');
+const { findIndex, findLastIndex } = require('lodash');
 
-const findIndex = lodash.findIndex;
-const findLastIndex = lodash.findLastIndex;
 const PROPS = ['year', 'month', 'day', 'hour', 'minute', 'second'];
 
 /**
@@ -99,7 +98,7 @@ function isSelectable(value) {
  * @class Datepicker
  * @extends Base
  */
-class Datepicker extends Base {
+module.exports = class Datepicker extends Base {
   /**
    * @constructor
    * @param {question} question
@@ -110,10 +109,10 @@ class Datepicker extends Base {
     super(question, rl, answers);
 
     const options = this.opt;
+    let format = options.format;
     const min = options.min || null;
     const max = options.max || null;
     const steps = options.steps || {};
-    let format = options.format;
 
     PROPS.forEach(key => {
       normalizeRange(min, key);
@@ -278,11 +277,11 @@ class Datepicker extends Base {
       }
     });
 
+    options.steps = steps;
+    options.default = null;
+    options.format = format;
     options.min = min || null;
     options.max = max || null;
-    options.steps = steps;
-    options.format = format;
-    options.default = null; // Reset default
 
     this.selection = selection;
 
@@ -306,8 +305,8 @@ class Datepicker extends Base {
     const onEnd = this.onEnd.bind(this);
     const onKeypress = this.onKeypress.bind(this);
 
-    line.take(1).forEach(onEnd);
-    keypress.takeUntil(line).forEach(onKeypress);
+    line.pipe(take(1)).forEach(onEnd);
+    keypress.pipe(takeUntil(line)).forEach(onKeypress);
     this.render();
 
     return this;
@@ -321,8 +320,8 @@ class Datepicker extends Base {
   render() {
     let unselected = '';
     let message = this.getQuestion();
-    const selection = this.selection;
     const format = this.opt.format;
+    const selection = this.selection;
 
     function outputUnselected() {
       if (unselected) {
@@ -335,7 +334,7 @@ class Datepicker extends Base {
       if (selection.cursor === index) {
         outputUnselected();
 
-        message += chalk.reset.yellow.inverse(' ' + selection.date.format(key) + ' ');
+        message += chalk.reset.yellow.inverse(` ${selection.date.format(key)} `);
       } else {
         unselected += key;
       }
@@ -354,10 +353,10 @@ class Datepicker extends Base {
    */
   onKeypress(e) {
     let index;
+    const options = this.opt;
     const selection = this.selection;
     const cursor = selection.cursor;
     const elements = selection.elements;
-    const options = this.opt;
 
     // Arrow Keys
     if (e.key.name === 'right') {
@@ -410,7 +409,4 @@ class Datepicker extends Base {
     // Show cursor
     cursor.show();
   }
-}
-
-// Exports
-module.exports = Datepicker;
+};
