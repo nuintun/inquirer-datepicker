@@ -52,6 +52,7 @@ function resolveRange(date, range) {
   if (!range) return null;
 
   let count = 0;
+
   const meta = {};
 
   PROPS.forEach(key => {
@@ -108,10 +109,11 @@ module.exports = class Datepicker extends Base {
     super(question, rl, answers);
 
     const options = this.opt;
-    let format = options.format;
     const min = options.min || null;
     const max = options.max || null;
     const steps = options.steps || {};
+
+    let format = options.format;
 
     PROPS.forEach(key => {
       normalizeRange(min, key);
@@ -273,6 +275,7 @@ module.exports = class Datepicker extends Base {
           break;
         default:
           elements.push(null);
+          break;
       }
     });
 
@@ -306,6 +309,7 @@ module.exports = class Datepicker extends Base {
 
     line.pipe(take(1)).forEach(onEnd);
     keypress.pipe(takeUntil(line)).forEach(onKeypress);
+
     this.render();
 
     return this;
@@ -319,6 +323,7 @@ module.exports = class Datepicker extends Base {
   render() {
     let unselected = '';
     let message = this.getQuestion();
+
     const format = this.opt.format;
     const selection = this.selection;
 
@@ -340,6 +345,7 @@ module.exports = class Datepicker extends Base {
     });
 
     outputUnselected();
+
     this.screen.render(message);
 
     return this;
@@ -351,7 +357,6 @@ module.exports = class Datepicker extends Base {
    * @description When user press a key
    */
   onKeypress(e) {
-    let index;
     const options = this.opt;
     const selection = this.selection;
     const cursor = selection.cursor;
@@ -359,10 +364,12 @@ module.exports = class Datepicker extends Base {
 
     // Arrow Keys
     if (e.key.name === 'right') {
-      index = findIndex(elements, isSelectable, cursor + 1);
+      const index = findIndex(elements, isSelectable, cursor + 1);
+
       selection.cursor = index >= 0 ? index : cursor;
     } else if (e.key.name === 'left') {
-      index = findLastIndex(elements, isSelectable, cursor > 0 ? cursor - 1 : cursor);
+      const index = findLastIndex(elements, isSelectable, cursor > 0 ? cursor - 1 : cursor);
+
       selection.cursor = index >= 0 ? index : cursor;
     } else if (e.key.name === 'up') {
       if (!elements[cursor].add(1) && options.max) {
@@ -393,8 +400,9 @@ module.exports = class Datepicker extends Base {
    */
   onEnd() {
     const screen = this.screen;
-    const selection = this.selection;
     const format = this.opt.format;
+    const selection = this.selection;
+
     let message = this.getQuestion();
 
     this.status = 'answered';
@@ -403,6 +411,7 @@ module.exports = class Datepicker extends Base {
 
     screen.render(message);
     screen.done();
+
     this.done(selection.date.toDate());
 
     // Show cursor
