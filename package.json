@@ -35,7 +35,7 @@
     "chalk": "^4.1.2",
     "cli-cursor": "^3.1.0",
     "lodash": "^4.17.21",
-    "moment": "^2.29.3",
+    "moment": "^2.29.4",
     "rxjs": "^7.5.5"
   },
   "devDependencies": {
