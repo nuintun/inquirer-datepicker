@@ -34,7 +34,7 @@
   "dependencies": {
     "chalk": "^4.1.2",
     "cli-cursor": "^3.1.0",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "moment": "^2.29.3",
     "rxjs": "^7.5.5"
   },
